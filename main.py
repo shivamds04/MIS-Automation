@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 import gspread
 import pandas as pd
+import streamlit as st
 from google.oauth2.service_account import Credentials
 from gspread_formatting import Border, Borders, CellFormat, format_cell_range
 
@@ -77,10 +78,26 @@ def run_mis(csv_path, eta_csv_path):
     ]
 
     # ---------------- AUTH ----------------
-    creds = Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE,
-        scopes=SCOPES,
-    )
+    # On Streamlit Cloud, credentials come from st.secrets (set in the
+    # app's Secrets settings). Locally, they come from the JSON file in
+    # credentials/. This lets the same code run in both places.
+    if "gcp_service_account" in st.secrets:
+        service_account_info = dict(st.secrets["gcp_service_account"])
+        creds = Credentials.from_service_account_info(
+            service_account_info,
+            scopes=SCOPES,
+        )
+    else:
+        if not os.path.exists(SERVICE_ACCOUNT_FILE):
+            raise FileNotFoundError(
+                "Google service account credentials not found. "
+                "Locally: place the file at credentials/service_account.json. "
+                "On Streamlit Cloud: add a [gcp_service_account] section in Secrets."
+            )
+        creds = Credentials.from_service_account_file(
+            SERVICE_ACCOUNT_FILE,
+            scopes=SCOPES,
+        )
     gc = gspread.authorize(creds)
 
     # ---------------- MAIN CSV ----------------
@@ -121,6 +138,21 @@ def run_mis(csv_path, eta_csv_path):
             eta_lookup[d] = eta
 
     # ---------------- CLIENT MAP ----------------
+    # client_sheet_mapping.json is user-editable data (via Add/Remove Data
+    # pages), so it isn't meant to be a secret. But it's gitignored, so on
+    # a fresh cloud deploy it won't exist yet — seed it from secrets once
+    # so the app doesn't crash on first run.
+    if not os.path.exists(MAPPING_FILE) and "client_sheet_mapping" in st.secrets:
+        with open(MAPPING_FILE, "w", encoding="utf-8") as f:
+            json.dump(dict(st.secrets["client_sheet_mapping"]), f, indent=4, ensure_ascii=False)
+
+    if not os.path.exists(MAPPING_FILE):
+        raise FileNotFoundError(
+            "client_sheet_mapping.json not found. Locally: create it in the "
+            "project root. On Streamlit Cloud: add a [client_sheet_mapping] "
+            "section in Secrets, or use the Add Data page after first deploy."
+        )
+
     with open(MAPPING_FILE, "r", encoding="utf-8") as f:
         client_map = json.load(f)
 
