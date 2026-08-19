@@ -21,8 +21,13 @@ st.markdown("""
     border-radius: 15px;
     margin-bottom: 14px;
     background: #ffffff;
+    color: #0f172a;
+}
+.step b {
+    color: #0f172a;
 }
 </style>
+
 """, unsafe_allow_html=True)
 
 if st.button("← Back to MIS Automation", key="back_home_guidelines"):
