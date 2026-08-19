@@ -19,11 +19,16 @@ def render_footer():
     components.html(
         """
         <style>
+        body {
+            margin: 0;
+            background: #0e1117;
+        }
+
         .portfolio-footer {
-            margin-top: 80px;
+            margin-top: 0;
             padding: 50px 0;
-            background: #f8fafc;
-            border-top: 1px solid rgba(0,0,0,0.08);
+            background: #0e1117;
+            border-top: 1px solid rgba(250,250,250,0.1);
             text-align: center;
             font-family: Arial, sans-serif;
         }
@@ -40,6 +45,7 @@ def render_footer():
             height: 22px;
             opacity: 0.85;
             transition: 0.3s;
+            filter: invert(1) brightness(1.6);
         }
 
         .footer-icons img:hover {
@@ -49,13 +55,13 @@ def render_footer():
 
         .footer-title {
             font-weight: 600;
-            color: #0f172a;
+            color: #fafafa;
             margin-bottom: 6px;
         }
 
         .footer-sub {
             font-size: 14px;
-            color: #64748b;
+            color: #a3a8b8;
         }
         </style>
 
@@ -141,9 +147,14 @@ st.markdown("""
 
 .summary {
     background: #f1f5f9;
+    color: #0f172a;
     padding: 16px;
     border-radius: 14px;
     margin-bottom: 10px;
+}
+
+.summary b {
+    color: #0f172a;
 }
 
 .stButton > button {
