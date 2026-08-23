@@ -21,14 +21,14 @@ def render_footer():
         <style>
         body {
             margin: 0;
-            background: #0e1117;
+            background: #ffffff;
         }
 
         .portfolio-footer {
             margin-top: 0;
             padding: 50px 0;
-            background: #0e1117;
-            border-top: 1px solid rgba(250,250,250,0.1);
+            background: #ffffff;
+            border-top: 1px solid rgba(0,0,0,0.08);
             text-align: center;
             font-family: Arial, sans-serif;
         }
@@ -45,7 +45,6 @@ def render_footer():
             height: 22px;
             opacity: 0.85;
             transition: 0.3s;
-            filter: invert(1) brightness(1.6);
         }
 
         .footer-icons img:hover {
@@ -55,13 +54,29 @@ def render_footer():
 
         .footer-title {
             font-weight: 600;
-            color: #fafafa;
+            color: #0f172a;
             margin-bottom: 6px;
         }
 
         .footer-sub {
             font-size: 14px;
-            color: #a3a8b8;
+            color: #64748b;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body, .portfolio-footer {
+                background: #0e1117;
+                border-top: 1px solid rgba(250,250,250,0.1);
+            }
+            .footer-icons img {
+                filter: invert(1) brightness(1.6);
+            }
+            .footer-title {
+                color: #fafafa;
+            }
+            .footer-sub {
+                color: #a3a8b8;
+            }
         }
         </style>
 
@@ -146,15 +161,16 @@ st.markdown("""
 }
 
 .summary {
-    background: #f1f5f9;
-    color: #0f172a;
+    background: var(--secondary-background-color);
+    color: var(--text-color);
     padding: 16px;
     border-radius: 14px;
     margin-bottom: 10px;
+    border: 1px solid rgba(128,128,128,0.25);
 }
 
 .summary b {
-    color: #0f172a;
+    color: var(--text-color);
 }
 
 .stButton > button {
