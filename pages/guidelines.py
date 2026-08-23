@@ -14,19 +14,21 @@ st.markdown("""
 <style>
 .block-container { padding-top: 2rem; }
 .page-title { font-size: 38px; font-weight: 800; }
-.page-subtitle { color:#64748b; font-size:18px; margin-bottom:30px; }
+.page-subtitle { color: var(--text-color); opacity: 0.65; font-size:18px; margin-bottom:30px; }
 .step {
     padding: 20px;
-    border: 1px solid rgba(0,0,0,0.07);
+    border: 1px solid rgba(128,128,128,0.25);
     border-radius: 15px;
     margin-bottom: 14px;
-    background: #ffffff;
-    color: #0f172a;
+    background: var(--secondary-background-color);
+    color: var(--text-color);
 }
 .step b {
-    color: #0f172a;
+    color: var(--text-color);
 }
 </style>
+
+
 
 """, unsafe_allow_html=True)
 
